@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import yaml
 
 from distutils.core import setup, Extension
 from Cython.Build import cythonize
@@ -21,10 +22,22 @@ def mkExt(extName):
                      include_dirs=[np.get_include(), "."],
                      extra_compile_agrs=["-O3", "-Wall"])
 
+################################################################################
+
+def get_version():
+    with open('info/meta.yaml', 'r') as fp:
+        meta = yaml.load(fp)
+
+    return meta['package']['version']
+
+################################################################################
+
 extNames = findExtFiles("buffersort")
 extensions = list(map(mkExt, extNames))
 
 setup(name="buffersort",
       packages=["buffersort", "buffersort.test"],
       ext_modules=extensions,
-      cmdclass={'build_ext':build_ext})
+      cmdclass={'build_ext':build_ext},
+      version=get_version()
+      )

@@ -1,0 +1,5 @@
+include LICENSE.txt
+include requirements.txt
+recursive-include info *
+recursive-exclude info *~
+recursive-include buffersort *.pxd
